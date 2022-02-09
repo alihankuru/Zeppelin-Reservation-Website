@@ -1,0 +1,44 @@
+﻿@model ZeppelinWebsite.ViewModel.CommentViewModel
+
+
+
+<html>
+
+<head>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <table style="width:100%" class="table">
+
+        <tr>
+            <td>
+                @Model.CommentedOn.ToString(format: "dd-MM-yyyy")
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Model.CommentDescription
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @for (int i = 0; i < @Model.Rating; i++)
+                {
+                    <span class="glyphicon glyphicon-star"></span>
+                }
+
+                @for (int i = @Model.Rating; i < 5; i++)
+                {
+                    <span class="glyphicon glyphicon-star-empty"></span>
+                }
+
+
+            </td>
+        </tr>
+
+    </table>
+
+
+</body>
+</html>

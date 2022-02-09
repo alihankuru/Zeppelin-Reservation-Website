@@ -1,0 +1,28 @@
+﻿@*@model IEnumerable<ZeppelinWebsite.ViewModel.ZeppelinDetailsViewModel>
+@{
+    ViewBag.Title = "Search";
+}
+
+<h2>Search</h2>
+
+
+
+<table>
+    <tr>
+        <th>
+
+            Name
+        </th>
+
+
+    </tr>
+    @foreach (var item in Model)
+    {
+        <td>@Html.DisplayFor(modelItem => item.ZeppelinFrom)</td>
+        <td>@Html.DisplayFor(modelItem => item.ZeppelinTo)</td>
+
+    }
+
+
+
+</table>*@

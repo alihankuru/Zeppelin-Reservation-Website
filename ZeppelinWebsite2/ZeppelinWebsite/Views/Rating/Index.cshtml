@@ -1,0 +1,81 @@
+﻿@model IEnumerable<ZeppelinWebsite.ViewModel.ArticleViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<html>
+<head>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+</head>
+
+<body  style="background-color:#cce6f9;">
+    <h2>Rate Flight</h2>
+
+    <table style="width:100%" class="table">
+
+        <thead>
+
+            <tr>
+
+                <th>
+                    Article Id
+                </th>
+
+                <th>
+                    Article Name
+                </th>
+
+                <th>
+                    Article Description
+                </th>
+
+
+                <th>
+                    Action
+                </th>
+
+            </tr>
+
+
+
+
+
+        </thead>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    @item.ArticleId
+                </td>
+                <td>
+                    @item.ArticleName
+                </td>
+                <td>
+                    @item.ArticleDescription
+                </td>
+                <td>
+                    @Html.ActionLink("Add/View Comment", "ShowComment", new { articleId = @item.ArticleId })
+                </td>
+
+            </tr>
+
+
+
+        }
+
+
+
+
+
+
+    </table>
+</body>
+</html>
+
+
+

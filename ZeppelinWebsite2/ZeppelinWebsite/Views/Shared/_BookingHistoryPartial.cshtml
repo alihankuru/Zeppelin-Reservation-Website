@@ -1,0 +1,103 @@
+﻿@model IEnumerable<ZeppelinWebsite.ViewModel.ZeppelinBookingViewModel>
+
+@*@using (Html.BeginForm("Search", "Booking", FormMethod.Get))
+{
+    @Html.TextBox("searching")
+    <input type="submit" value="submit" />
+}*@
+
+<html>
+<head>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+    <table style="width: 100%" class="table">
+        <thead class="thead-dark">
+
+            <tr>
+
+                <th scope="col">
+                    Name
+                </th>
+
+                <th scope="col">
+                    Address
+                </th>
+
+                <th scope="col">
+                    Phone
+                </th>
+                <th scope="col">
+                    Booking From
+                </th>
+
+
+                <th scope="col">
+                    Number Of Member
+                </th>
+                <th scope="col">
+                    Price
+                </th>
+                @*<th scope="col">
+                    Payment
+                </th>*@
+
+
+            </tr>
+
+
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td scope="row">
+                        @item.CustomerName
+                    </td>
+                    <td scope="row">
+                        @item.CustomerAddress
+                    </td>
+                    <td scope="row">
+                        @item.CustomerPhone
+                    </td>
+
+                    <td scope="row">
+                        @item.BookingFrom.ToString()
+                    </td>
+
+                    <td scope="row">
+                        @item.NumberOfMembers
+                    </td>
+
+
+                    <td scope="row">
+                        @item.ZeppelinPrice.ToString(format: "#,##0.00")
+                    </td>
+                    <!--<td scope="row">-->
+                        @*<span id="btnEdit" class="glyphicon glyphicon-menu-right" onclick="EditZeppelin(@item.BookingId)"></span> &nbsp;*@
+                        <!--<input type="button" value="Pay Now" onclick="window.open('@Url.Action("Index","Payment")')" />
+                    </td>-->
+                </tr>
+            }
+
+
+        </tbody>
+
+
+
+    </table>
+
+
+</body>
+
+</html>
+
+
+
+
+
+

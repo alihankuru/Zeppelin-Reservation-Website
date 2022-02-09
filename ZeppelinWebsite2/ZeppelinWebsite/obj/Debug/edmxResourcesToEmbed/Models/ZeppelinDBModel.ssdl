@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ZeppelinnDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="BookingStatus">
+    <Key>
+      <PropertyRef Name="BookingStatusId" />
+    </Key>
+    <Property Name="BookingStatusId" Type="int" Nullable="false" />
+    <Property Name="BookingStatus" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PaymentTypes">
+    <Key>
+      <PropertyRef Name="PaymentTypeId" />
+    </Key>
+    <Property Name="PaymentTypeId" Type="int" Nullable="false" />
+    <Property Name="PaymentTypeName" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SeatTypes">
+    <Key>
+      <PropertyRef Name="SeatTypeId" />
+    </Key>
+    <Property Name="SeatTypeId" Type="int" Nullable="false" />
+    <Property Name="SeatTypeName" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Payments">
+    <Key>
+      <PropertyRef Name="PaymentId" />
+    </Key>
+    <Property Name="PaymentId" Type="int" Nullable="false" />
+    <Property Name="BookingId" Type="int" Nullable="false" />
+    <Property Name="PaymentType" Type="int" Nullable="false" />
+    <Property Name="PaymentAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Articles">
+    <Key>
+      <PropertyRef Name="ArticleId" />
+    </Key>
+    <Property Name="ArticleId" Type="int" Nullable="false" />
+    <Property Name="ArticleName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="ArticleDescription" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Comments">
+    <Key>
+      <PropertyRef Name="CommentId" />
+    </Key>
+    <Property Name="CommentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ArticleId" Type="int" Nullable="false" />
+    <Property Name="GuestId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="CommentDescription" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Rating" Type="int" Nullable="false" />
+    <Property Name="CommentedOn" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Roles">
+    <Key>
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="RoleId" Type="int" Nullable="false" />
+    <Property Name="RoleName" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserRoles">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="RoleId" Type="int" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="UserPassword" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="UserSalt" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="VerificationCode" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="IsVerified" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Zeppelin">
+    <Key>
+      <PropertyRef Name="ZeppelinId" />
+    </Key>
+    <Property Name="ZeppelinId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ZeppelinNumber" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="ZeppelinImage" Type="nvarchar" MaxLength="550" Nullable="false" />
+    <Property Name="ZeppelinPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="BookingStatusId" Type="int" Nullable="false" />
+    <Property Name="SeatTypeId" Type="int" Nullable="false" />
+    <Property Name="ZeppelinCapacity" Type="int" Nullable="false" />
+    <Property Name="ZeppelinFrom" Type="nvarchar" MaxLength="550" Nullable="false" />
+    <Property Name="ZeppelinTo" Type="nvarchar" MaxLength="550" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ZeppelinBookings">
+    <Key>
+      <PropertyRef Name="BookingId" />
+    </Key>
+    <Property Name="BookingId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustomerName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CustomerAddress" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="CustomerPhone" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="BookingFrom" Type="date" Nullable="false" />
+    <Property Name="AssignZeppelinId" Type="int" Nullable="false" />
+    <Property Name="NoOfMembers" Type="int" Nullable="false" />
+    <Property Name="TotalAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="ZeppelinnDBModelStoreContainer">
+    <EntitySet Name="BookingStatus" EntityType="Self.BookingStatus" Schema="Master" store:Type="Tables" />
+    <EntitySet Name="PaymentTypes" EntityType="Self.PaymentTypes" Schema="Master" store:Type="Tables" />
+    <EntitySet Name="SeatTypes" EntityType="Self.SeatTypes" Schema="Master" store:Type="Tables" />
+    <EntitySet Name="Payments" EntityType="Self.Payments" Schema="Payment" store:Type="Tables" />
+    <EntitySet Name="Articles" EntityType="Self.Articles" Schema="Rating" store:Type="Tables" />
+    <EntitySet Name="Comments" EntityType="Self.Comments" Schema="Rating" store:Type="Tables" />
+    <EntitySet Name="Roles" EntityType="Self.Roles" Schema="Security" store:Type="Tables" />
+    <EntitySet Name="UserRoles" EntityType="Self.UserRoles" Schema="Security" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="Security" store:Type="Tables" />
+    <EntitySet Name="Zeppelin" EntityType="Self.Zeppelin" Schema="Zeppelin" store:Type="Tables" />
+    <EntitySet Name="ZeppelinBookings" EntityType="Self.ZeppelinBookings" Schema="Zeppelin" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,325 @@
+﻿@model ZeppelinWebsite.ViewModel.ZeppelinViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+<html>
+
+<head>
+
+    <style>
+
+    </style>
+
+    <script src="~/Scripts/jquery-3.6.0.min.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            LoadZeppelinDetails();
+            $("#txtZeppelinId").val("0");
+            $("#btnSave").click(function () {
+                //if (!$("#formZeppelin").valid()) {
+
+                //    return;
+                //}
+                SaveZeppelinData();
+            });
+
+        });
+
+
+        function DeleteZeppelin(ZeppelinId) {
+
+            var result = confirm("Are you sure you want to delete?");
+            if (result === false) {
+                return false;
+            }
+
+            $.ajax({
+                async: true,
+                type: 'GET',
+                dataType: 'JSON',
+                contentType: 'application/json; charset=utf-8',
+                data: { ZeppelinId: ZeppelinId },
+                url: '/Flight/DeleteZeppelinDetails',
+                success: function (data) {
+                    if (data.success === true) {
+                        alert(data.message);
+                        LoadZeppelinDetails();
+                    }
+
+                },
+                error: function () {
+
+                    alert("There is a problem in DeleteZeppelin");
+                }
+
+            });
+
+
+        }
+
+        function EditZeppelin(ZeppelinId) {
+
+            $.ajax({
+                async: true,
+                type: 'GET',
+                dataType: 'JSON',
+                contentType: 'application/json; charset=utf-8',
+                data: { ZeppelinId: ZeppelinId },
+                url: '/Flight/EditZeppelinDetails',
+                success: function (data) {
+                    $("#txtZeppelinNumber").val(data.ZeppelinNumber);
+                    $("#txtZeppelinPrice").val(data.ZeppelinPrice);
+                    $("#ddBookingStatus").val(data.BookingStatusId);
+                    $("#ddSeatType").val(data.SeatTypeId);
+                    $("#txtZeppelinCapacity").val(data.ZeppelinCapacity);
+                    $("#txtZeppelinFrom").val(data.ZeppelinFrom);
+                    $("#txtZeppelinTo").val(data.ZeppelinTo);
+                    /*$("#txtZeppelinDescription").val(data.ZeppelinDescription);*/
+                    $("#imgZeppelin").attr('src', "../ZeppelinImages/" + data.ZeppelinImage);
+                    $("#divAddFlight").modal({ show: true })
+                    $("#txtZeppelinId").val(data.ZeppelinId);
+                    $("#btnSave").text("Update");
+
+
+                },
+                error: function () {
+
+                    alert('There is a problem in DeleteZeppelin');
+
+                }
+
+
+
+
+
+            });
+        }
+
+
+
+        function LoadZeppelinDetails() {
+            //$("divLoadZeppelinDetails")
+
+
+            $.ajax({
+                async: true,
+                data: 'GET',
+                dataType: 'HTML',
+                contentType: false,
+                processData: false,
+                url: '/Flight/GetAllZeppelin',
+                success: function (data) {
+                    $("#divLoadZeppelinDetails").html(data);
+                },
+                error: function () {
+
+                    alert('There is a problem in loadZeppelinDetails');
+                }
+            });
+        }
+
+
+        function SaveZeppelinData() {
+
+            var formData = new FormData;
+            formData.append("ZeppelinId", $("#txtZeppelinId").val());
+            formData.append("ZeppelinNumber", $("#txtZeppelinNumber").val());
+            formData.append("ZeppelinPrice", $("#txtZeppelinPrice").val());
+            formData.append("BookingStatusId", $("#ddBookingStatus").val());
+            formData.append("SeatTypeId", $("#ddSeatType").val());
+            formData.append("ZeppelinCapacity", $("#txtZeppelinCapacity").val());
+            formData.append("ZeppelinFrom", $("#txtZeppelinFrom").val());
+            formData.append("ZeppelinTo", $("#txtZeppelinTo").val());
+            formData.append("Image", $("#UploadImage").get(0).files[0]);
+
+
+            $.ajax({
+                async: true,
+                type: 'POST',
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    if (data.success === true) {
+                        alert(data.message);
+                        ResetZeppelinInformation();
+                    }
+                },
+                error: function () {
+                    alert('There is a problem. Please try after.');
+                }
+
+            });
+
+
+
+        }
+
+        function ResetZeppelinInformation() {
+            $("#txtZeppelinNumber").val('');
+            $("#txtZeppelinPrice").val('');
+            $("#ddBookingStatus").val(1);
+            $("#ddSeatType").val(1);
+            $("#txtZeppelinCapacity").val('');
+           
+            $("#txtZeppelinFrom").val('');
+            $("#txtZeppelinTo").val('');
+            $("#UploadImage").val('');
+            $("#txtZeppelinNumber").focus();
+            $("#imgZeppelin").removeAttr('src');
+            $("#txtZeppelinId").val(0);
+            $("#btnSave").val("Save");
+        }
+
+
+        function DisplayImage(result) {
+            if (result.files && result.files[0]) {
+                var fileReader = new FileReader;
+                fileReader.onload = function (e) {
+                    $("#imgZeppelin").attr('src', e.target.result);
+                }
+
+
+                fileReader.readAsDataURL(result.files[0]);
+            }
+        }
+    </script>
+
+
+</head>
+
+<body  style="background-color:#cce6f9;">
+    @*<div style="margin-top: 50px">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#divAddFlight" data-backdrop="static" data-keyboard="false">Add Flight</button>
+
+
+    </div>*@
+
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                    <h4 class="modal-title">Flight</h4>
+                </div>
+                <div class="modal-body">
+
+                    <form id="formZeppelin">
+
+
+                        <div class="container col-md-10">
+                            @Html.HiddenFor(expression: model => model.ZeppelinId, htmlAttributes: new { @id = "txtZeppelinId" })
+
+                            <div class="form-group col-md-6">
+
+                                @Html.LabelFor(expression: model => model.ZeppelinNumber)
+                                @Html.TextBoxFor(expression: model => model.ZeppelinNumber, htmlAttributes: new { @class = "form-control", id = "txtZeppelinNumber" })
+                                @Html.ValidationMessageFor(expression: model => model.ZeppelinNumber, validationMessage: null, htmlAttributes: new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group col-md-6">
+
+                                @Html.LabelFor(expression: model => model.ZeppelinPrice)
+                                @Html.TextBoxFor(expression: model => model.ZeppelinPrice, htmlAttributes: new { @class = "form-control", id = "txtZeppelinPrice" })
+                                @Html.ValidationMessageFor(expression: model => model.ZeppelinPrice, validationMessage: null, htmlAttributes: new { @class = "text-danger" })
+                            </div>
+
+                            @*<div class="form-group">
+
+          @Html.LabelFor(expression: model => model.BookingStatusId)
+              @Html.DropDownListFor(expression: model => model.BookingStatusId, Model.ListOfBookingStatus, htmlAttributes: new { @class = "form-control" })
+        </div>*@
+                            @*<div class="form-group">
+
+         @Html.LabelFor(expression: model => model.BookingStatusId)
+        @Html.DropDownListFor(expression: model => model.BookingStatusId, @Model.ListOfBookingStatus, htmlAttributes: new { @class = "form-control" })
+         </div>*@
+
+                            @*<div class="form-group">
+
+         @Html.LabelFor(expression: model => model.SeatTypeId)
+        @Html.DropDownListFor(expression: model => model.SeatTypeId, Model.ListOfSeatType, htmlAttributes: new { @class = "form-control" })
+        </div>*@
+
+                            <div class="form-group col-md-6">
+
+                                @Html.LabelFor(expression: model => model.BookingStatusId)
+                                @Html.DropDownListFor(model => model.BookingStatusId, Model.ListOfBookingStatus, htmlAttributes: new { @class = "form-control", id = "ddBookingStatus" })
+                                @Html.ValidationMessageFor(expression: model => model.BookingStatusId, validationMessage: null, htmlAttributes: new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group col-md-6">
+
+                                @Html.LabelFor(expression: model => model.SeatTypeId)
+                                @Html.DropDownListFor(model => model.SeatTypeId, Model.ListOfSeatType, htmlAttributes: new { @class = "form-control", id = "ddSeatType" })
+                                @Html.ValidationMessageFor(expression: model => model.SeatTypeId, validationMessage: null, htmlAttributes: new { @class = "text-danger" })
+                            </div>
+
+
+                            <div class="form-group col-md-6">
+
+                                @Html.LabelFor(expression: model => model.ZeppelinCapacity)
+                                @Html.TextBoxFor(expression: model => model.ZeppelinCapacity, htmlAttributes: new { @class = "form-control", id = "txtZeppelinCapacity" })
+                                @Html.ValidationMessageFor(expression: model => model.ZeppelinCapacity, validationMessage: null, htmlAttributes: new { @class = "text-danger" })
+                            </div>
+
+                            @*<div class="form-group col-md-6">
+
+                                @Html.LabelFor(expression: model => model.ZeppelinDescription)
+                                @Html.TextBoxFor(expression: model => model.ZeppelinDescription, htmlAttributes: new { @class = "form-control", id = "txtZeppelinDescription" })
+                                @Html.ValidationMessageFor(expression: model => model.ZeppelinDescription, validationMessage: null, htmlAttributes: new { @class = "text-danger" })
+                            </div>*@
+
+                            <div class="form-group col-md-6">
+
+                                @Html.LabelFor(expression: model => model.ZeppelinFrom)
+                                @Html.TextBoxFor(expression: model => model.ZeppelinFrom, htmlAttributes: new { @class = "form-control", id = "txtZeppelinFrom" })
+                                @Html.ValidationMessageFor(expression: model => model.ZeppelinFrom, validationMessage: null, htmlAttributes: new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group col-md-6">
+
+                                @Html.LabelFor(expression: model => model.ZeppelinTo)
+                                @Html.TextBoxFor(expression: model => model.ZeppelinTo, htmlAttributes: new { @class = "form-control", id = "txtZeppelinTo" })
+                                @Html.ValidationMessageFor(expression: model => model.ZeppelinTo, validationMessage: null, htmlAttributes: new { @class = "text-danger" })
+                            </div>
+
+
+                            <div class="form-group col-md-6">
+
+                                @Html.LabelFor(expression: model => model.ZeppelinImage)
+                                <input id="UploadImage" type="file" class="form-control" name="zeppelinImage" title="Load Image" onchange="DisplayImage(this)" />
+                                <img id="imgZeppelin" height="100" width="100" style="border: solid" />
+                            </div>
+
+                        </div>
+
+                    </form>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button id="btnSave" type="button" class="btn btn-success">Save</button> &nbsp;
+                    <button type="button" data-dismiss="modal" class="btn btn-danger">Close</button> &nbsp;
+                </div>
+
+
+            </div>
+
+       
+
+    </div>
+    <div style="margin-top: 20px"></div>
+    <div id="divLoadZeppelinDetails">
+
+
+    </div>
+
+</body>
+
+</html>
+

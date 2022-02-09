@@ -1,0 +1,95 @@
+﻿@model IEnumerable<ZeppelinWebsite.ViewModel.ZeppelinDetailsViewModel>
+
+@*@model ZeppelinWebsite.ViewModel.ZeppelinDetailsViewModel*@
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+
+<html>
+
+<head>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <table style="width:100%" class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">
+                    Action
+                </th>
+                <th scope="col">
+                    Zeppelin Image
+                </th>
+                <th scope="col">
+                    Zeppelin Number
+                </th>
+                <th scope="col">
+                    Price
+                </th>
+                <th scope="col">
+                    Booking Status
+                </th>
+
+                <th scope="col">
+                    Seat Type
+                </th>
+                <th scope="col">
+                    Zeppelin Capacity
+                </th>
+
+                <th scope="col">
+                    Zeppelin From
+                </th>
+
+                <th scope="col">
+                    Zeppelin To
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td scope="row">
+                        <span id="btnDelete" class="glyphicon glyphicon-trash" onclick="DeleteZeppelin(@item.ZeppelinId)"></span> &nbsp;
+                        <span id="btnEdit" class="glyphicon glyphicon-pencil" onclick="EditZeppelin(@item.ZeppelinId)"></span> &nbsp;
+                    </td>
+                    <td scope="row">
+                        <img src="@Url.Content("~/ZeppelinImages/" + item.ZeppelinImage)" width="30" height="30" class="img-responsive" />
+                    </td>
+                    <td scope="row">
+                        @item.ZeppelinNumber
+                    </td>
+                    <td scope="row">
+                        @item.ZeppelinPrice
+                    </td>
+                    <td scope="row">
+                        @item.BookingStatus
+                    </td>
+                    <td scope="row">
+                        @item.SeatType
+                    </td>
+                    <td scope="row">
+                        @item.ZeppelinCapacity
+                    </td>
+                    <td scope="row">
+                        @item.ZeppelinFrom
+                    </td>
+                    <td scope="row"> 
+                        @item.ZeppelinTo
+                    </td>
+
+                </tr>
+
+            }
+
+        </tbody>
+
+
+
+    </table>
+
+</body>
+
+</html>
+
